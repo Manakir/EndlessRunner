@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform playerTransform;
     public Vector3 distance;
-    void Update()
+    void LateUpdate()
     {
         transform.position = playerTransform.position + distance;
     }
