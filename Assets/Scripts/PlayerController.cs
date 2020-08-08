@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Slide")]
+    private float slideTime = 1f;
+    private float slideTimer = 0f;
     [Header("Jump")]
     public float ForceConst = 10;
-    private Rigidbody rigidbody;
+    private Rigidbody Rigidbody;
     public float distance = 1f;
     [Header("Player")]
     public Transform player;
-    public float speed = 2f;
+    public float maxSpeed; 
     public float laneChangeTime = 0.5f;
     public CapsuleCollider PlayerCollider;
     [Header("Lanes")]
@@ -18,7 +21,7 @@ public class PlayerController : MonoBehaviour
     public float laneWidth;
 
     private Vector3 playerStartPosition;
-    private int currentLane;
+    private float currentLane;
     private bool isMoving;
     private bool isSliding = false;
     private void Awake()
@@ -29,20 +32,26 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        Rigidbody = GetComponent<Rigidbody>();
+        Application.targetFrameRate = 60;
     }
     private void Update()
     {
-        player.transform.Translate(Vector3.forward * speed * Time.deltaTime);//player movement along the platform
-        if (Input.GetKeyDown(KeyCode.A)) { Left(); }
-        if (Input.GetKeyDown(KeyCode.D)) { Right(); }
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded()) { rigidbody.AddForce(0, ForceConst, 0, ForceMode.Impulse); }
-        if (Input.GetKeyDown(KeyCode.S) && !isSliding)
+        if (Swipe.Instance.SwipeLeft) { Left(); }
+        if (Swipe.Instance.SwipeRight) { Right(); }
+        if (Swipe.Instance.SwipeUp && IsGrounded())
+        {
+            slideTimer = 0;
+            Rigidbody.AddForce(0, ForceConst, 0, ForceMode.Impulse); 
+        }
+        if (Swipe.Instance.SwipeDown && !IsGrounded()) { Rigidbody.AddForce(0, -ForceConst, 0, ForceMode.Impulse); }
+        else if (Swipe.Instance.SwipeDown && !isSliding && IsGrounded())
         {
             isSliding = true;
             StartCoroutine(Slide());
         }
     }
+
     public bool IsGrounded()
     {
         Ray ray = new Ray(transform.position, -Vector3.up);//initialize a ray down to the platform
@@ -86,23 +95,25 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator Slide()
     {
-        if (isSliding)
-        {
-            transform.localScale = new Vector3(1f,0.5f,1f);
+        slideTimer = slideTime;//make timer
+        while (slideTimer > 0) 
+        {// change collider 
+            player.localScale = new Vector3(1f, 0.5f, 1f);
             PlayerCollider.center = new Vector3(0, -0.5f, 0);
             PlayerCollider.height = 0.5f;
-            yield return new WaitForSeconds(1f);
-            transform.localScale = new Vector3(1f, 1f, 1f);
-            PlayerCollider.center = new Vector3(0, 0, 0);
-            PlayerCollider.height = 2;
-        }
+            slideTimer -= Time.deltaTime;
+            yield return null;
+        }//change Scale
+        player.localScale = new Vector3(1f, 1f, 1f);
+        PlayerCollider.center = new Vector3(0, 0, 0);
+        PlayerCollider.height = 2;
         isSliding = false;
     }
     public void Reset()
     {
         player.gameObject.SetActive(true);
         player.transform.position = playerStartPosition;
-        currentLane = laneCount / 2;
+        currentLane = laneCount * 0.5f;
         StopAllCoroutines();
         isMoving = false;
     }
