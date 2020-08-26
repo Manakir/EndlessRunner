@@ -1,24 +1,26 @@
-﻿    using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CoinDetection : MonoBehaviour
 {
+    GameObject coin;
     CoinMove coinMove;
     void Start()
     {
-        coinMove = gameObject.GetComponent<CoinMove>();
+        coinMove = GetComponent<CoinMove>();
+        coin = gameObject;
     }
-
     void OnTriggerEnter(Collider coll)
     {
         if (coll.gameObject.tag == "CoinCollector")
         {
             coinMove.enabled = true;
         }
-        if (coll.gameObject.tag == "Player")
+        if (coll.gameObject.tag == "PlayerBody")
         {
-            Destroy(gameObject);
+            coinMove.enabled = false;
+            TilePooler.Instance.DisableObject(coin, TilePooler.Instance.activeCoins, TilePooler.Instance.disabledCoins);
+            PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + 1);
+            Death_Score.amountOfCoins++;
         }
     }
 }

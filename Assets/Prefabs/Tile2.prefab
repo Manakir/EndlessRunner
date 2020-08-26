@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1269558941438487486}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Tile2
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 5194333211609658881}
   - component: {fileID: 3137013579842043207}
   - component: {fileID: 1524978909682376039}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 5762693575149760934}
   - component: {fileID: 163916607028287837}
   - component: {fileID: 1787993710684704627}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
