@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1868893942406066901}
   - component: {fileID: 6421828116690141011}
   - component: {fileID: 3696362588982147606}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 2161929280569525821}
   - component: {fileID: 4368033993560817927}
   - component: {fileID: 2460302822143563574}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6893839350417486180}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Tile3
   m_TagString: Ground
   m_Icon: {fileID: 0}

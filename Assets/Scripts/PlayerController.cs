@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,15 +10,20 @@ public class PlayerController : MonoBehaviour
     [Header("Jump")]
     public float ForceConst = 10;
     private Rigidbody Rigidbody;
-    public float distance = 1f;
+    public float distanceToPlatform = 1f;
     [Header("Player")]
     public Transform player;
-    public float maxSpeed; 
     public float laneChangeTime = 0.5f;
+    public float speed;
+    public float maxSpeed = 15f;
+    public int distance = 30;
     public CapsuleCollider PlayerCollider;
     [Header("Lanes")]
     public int laneCount;
     public float laneWidth;
+    public int distancePassed = 30;
+    public float speedStep = 0.1f;
+    public float lineChangeTimeStep = 0.01f;
 
     private Vector3 playerStartPosition;
     private float currentLane;
@@ -50,12 +55,22 @@ public class PlayerController : MonoBehaviour
             isSliding = true;
             StartCoroutine(Slide());
         }
-    }
 
+        if (transform.position.z > distance && speed < maxSpeed)//if we have passed some distance add speed and substract lane change time
+        {
+            if (laneChangeTime > 0.35f)
+            {
+                laneChangeTime -= lineChangeTimeStep;
+            }
+            distance += distancePassed;
+            speed += speedStep;
+        }
+        transform.position += Vector3.forward * speed * Time.deltaTime; // const movement by z-axis
+    }
     public bool IsGrounded()
     {
         Ray ray = new Ray(transform.position, -Vector3.up);//initialize a ray down to the platform
-        return Physics.Raycast(ray, distance); // check if this ray can reach the platform
+        return Physics.Raycast(ray, distanceToPlatform); // check if this ray can reach the platform
     }
     public void Left()
     {

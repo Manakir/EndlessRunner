@@ -14,11 +14,4 @@ public class CoinMove : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, coinSpeed * Time.deltaTime);
     }
-    void OnTriggerEnter(Collider coll)
-    {
-        if(coll.gameObject.tag == "PlayerBubble")
-        {
-            Destroy(gameObject);
-        }
-    }
 }

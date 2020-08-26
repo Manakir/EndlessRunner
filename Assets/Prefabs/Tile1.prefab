@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8619043481621634145}
   - component: {fileID: 4274923376735558354}
   - component: {fileID: 8118177376298324527}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 203221218657849284}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Tile1
   m_TagString: Ground
   m_Icon: {fileID: 0}
